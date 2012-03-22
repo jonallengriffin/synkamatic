@@ -1,1 +1,7 @@
-coming soon!
+= synkamatic =
+
+Synkamatic helps to automate the syncing of changes between mirrored Mozilla hg and github repos
+
+== Reference ==
+
+Github pull requests: http://developer.github.com/v3/pulls/
