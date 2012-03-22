@@ -14,7 +14,6 @@ try:
     kw['entry_points'] = """
       [console_scripts]
       synkamatic = synkamatic.main:main
-      synkamatic-template = synkamatic.template:main
 """
     kw['install_requires'] = dependencies
 except ImportError:
@@ -23,7 +22,7 @@ except ImportError:
 
 try:
     here = os.path.dirname(os.path.abspath(__file__))
-    description = file(os.path.join(here, 'README.txt')).read()
+    description = file(os.path.join(here, 'README')).read()
 except IOError:
     description = ''
 
@@ -42,4 +41,3 @@ setup(name='synkamatic',
       zip_safe=False,
       **kw
       )
-

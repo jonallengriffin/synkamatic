@@ -64,4 +64,3 @@ def main(args=sys.argv[1:]):
 
     # install the package in develop mode
     call([python 'setup.py', 'develop'], cwd=clone)
-

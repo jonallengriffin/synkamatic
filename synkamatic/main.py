@@ -4,6 +4,10 @@
 Synkamatic helps to automate the syncing of changes between mirrored Mozilla hg and github repos
 """
 
+# Things we'll need:
+# - a github account to turn hg pulled events into pull requests
+# - pulse monitoring of hg commits to mozilla-central
+
 import sys
 import optparse
 
