@@ -7,3 +7,5 @@ Synkamatic helps to automate the syncing of changes between mirrored Mozilla hg 
 Github pull requests: http://developer.github.com/v3/pulls/
 
 Python github client library: https://github.com/ask/python-github2 (for version 2, github is up to version 3)
+
+There's a github API v3 lib at http://vincent-jacques.net/PyGithub.
