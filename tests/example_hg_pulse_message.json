@@ -1,0 +1,39 @@
+{
+  "payload": {
+    "branches": [
+      "default"
+    ], 
+    "repository": "integration/mozilla-inbound", 
+    "tags": [], 
+    "url": "http://hg.mozilla.org/integration/mozilla-inbound/rev/23c8ba0260a3", 
+    "reviewers": [
+      "roc"
+    ], 
+    "affected_files": [
+      "layout/reftests/bidi/726460-1-ref.html", 
+      "layout/reftests/bidi/726460-1.html", 
+      "layout/reftests/bidi/reftest.list"
+    ], 
+    "who": {
+      "raw": "Simon Montagu <smontagu@smontagu.org>", 
+      "name": "Simon Montagu", 
+      "email": "smontagu@smontagu.org"
+    }, 
+    "when": "2012-03-21T16:50:29-07:00", 
+    "bugs": [
+      "726460"
+    ], 
+    "superreviewers": [], 
+    "approvers": [], 
+    "closed_tree_bypass": false, 
+    "automated": false, 
+    "message": "Reftest for bug 726460, r=roc", 
+    "id": "23c8ba0260a3"
+  }, 
+  "_meta": {
+    "sent": "2012-03-22T16:52:55+01:00", 
+    "routing_key": "hg.commit.integration.mozilla.inbound", 
+    "serializer": "json", 
+    "exchange": "org.mozilla.exchange.code"
+  }
+}
