@@ -14,6 +14,7 @@ try:
     kw['entry_points'] = """
       [console_scripts]
       synkamatic = synkamatic.main:main
+      synk-mozbase = synkamatic.mozbase:main
 """
     kw['install_requires'] = dependencies
 except ImportError:

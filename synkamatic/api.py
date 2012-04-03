@@ -8,8 +8,16 @@ import sys
 
 
 class Synkamatic(object):
+    """
+    sync mozilla repositories <-> github
+    using pulse messages for communication and
+    bugzilla and github pull-requests as
+    human-moderatable media
+    """
+
     paths = [] # a list of regex's to match against paths in hg
     github = None # github repository
+    bugzilla = 'https://api-dev.bugzilla.mozilla.org/latest/' # REST API for bugzilla
 
     def __init__(self, github=None, paths=None, tree='mozilla-central'):
         self.github = github or self.github
