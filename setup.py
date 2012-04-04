@@ -5,7 +5,7 @@ setup packaging script for synkamatic
 import os
 
 version = "0.0"
-dependencies = ['MozillaPulse']
+dependencies = ['MozillaPulse >= 0.61']
 
 # allow use of setuptools/distribute or distutils
 kw = {}

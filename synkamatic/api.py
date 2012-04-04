@@ -35,8 +35,9 @@ class Synkamatic(object):
         """Start listening to pulse messages.  This method will never return.
         """
 
-        pulse = CodeConsumer(applabel='synkamatic|%s' % socket.gethostname())
         treewords = self.tree.replace('-', '.')
+        pulse = CodeConsumer(applabel='synkamatic|%s' % socket.gethostname(),
+                             heartbeat=True)
         pulse.configure(topic="hg.commit.#.%s" % treewords,
                         callback=self.on_pulse_message,
                         durable=False)
