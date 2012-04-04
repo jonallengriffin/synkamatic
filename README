@@ -2,6 +2,14 @@
 
 Synkamatic helps to automate the syncing of changes between mirrored Mozilla hg and github repos
 
+== How it Works ==
+
+Synkamatic is a semi-automatic bridge between subsets of the mozilla-central
+mercurial repository, http://hg.mozilla.org/mozilla-central, and related
+projects on github, https://github.com/ .
+
+Synkamatic listens to messages using mozillapulse.
+
 == Reference ==
 
 Github pull requests: http://developer.github.com/v3/pulls/
@@ -9,3 +17,6 @@ Github pull requests: http://developer.github.com/v3/pulls/
 Python github client library: https://github.com/ask/python-github2 (for version 2, github is up to version 3)
 
 There's a github API v3 lib at http://vincent-jacques.net/PyGithub.
+
+----
+
