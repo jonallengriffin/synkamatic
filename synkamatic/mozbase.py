@@ -12,7 +12,7 @@ class Mozbase(Synkamatic):
     https://wiki.mozilla.org/Auto-tools/Projects/MozBase
     """
 
-    paths = ['testing/mozbase/'] # regex strings that represent paths in m-c
+    paths = ['testing/mozbase'] # paths in m-c
     github = 'https://github.com/mozilla/mozbase'
 
 

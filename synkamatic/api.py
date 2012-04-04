@@ -18,6 +18,8 @@ class Synkamatic(object):
     paths = [] # a list of regex's to match against paths in hg
     github = None # github repository
     bugzilla = 'https://api-dev.bugzilla.mozilla.org/latest/' # REST API for bugzilla
+    reviewer = None # reviewer for github -> bugzilla patches
+    cc = [] # bugzilla users to CC for github -> bugzilla patches
 
     def __init__(self, github=None, paths=None, tree='mozilla-central'):
         self.github = github or self.github

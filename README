@@ -1,6 +1,7 @@
 = synkamatic =
 
-Synkamatic helps to automate the syncing of changes between mirrored Mozilla hg and github repos
+Synkamatic helps to automate the syncing of changes between mirrored Mozilla
+hg and github repositories
 
 == How it Works ==
 
@@ -8,15 +9,82 @@ Synkamatic is a semi-automatic bridge between subsets of the mozilla-central
 mercurial repository, http://hg.mozilla.org/mozilla-central, and related
 projects on github, https://github.com/ .
 
-Synkamatic listens to messages using mozillapulse.
+Synkamatic listens to pulse (http://pulse.mozilla.org/) messages
+using the MozillaPulse python library:
+http://pypi.python.org/pypi/MozillaPulse . Commits to mozilla-central
+trigger pulse messages which synkamatic clients listen to.
+
+Each implementor of the `Synkamatic` API corresponds to a github
+repository.  A daemon github "user" clones the repository of each of the
+active implementors.  Each implementor has a set of paths in
+mozilla-central.  If the implementor hears a pulse message where
+`affected_files` (see https://github.com/jonallengriffin/synkamatic/blob/master/tests/example_hg_pulse_message.json ),
+are a subpath (or a match) to its paths, the implementor will apply the diff
+given by the 'url' field in the pulse message to its copy of the
+github repository and then issue a pull request to the canonical
+repository using the github API: http://developer.github.com/ .
+The pull request will contain the mozilla-central commit message, a link
+to the mozilla-central changeset, and links to the relevent bugs.  One
+branch per mozilla-central changeset so that the pull requests are
+atomic to that commit.
+The owners of the github repository may then review the pull request
+and merge it in at their discretion.
+
+Synkamatic can also convert github changes to bugzilla
+(https://bugzilla.mozilla.org/) issues with patches to be reviewed.
+Synkamatic listens to POST requests sent via github's post-receive-hooks:
+http://help.github.com/post-receive-hooks/ . This must be configured by
+the github repository administrator. (Alternatively, we could poll for
+changes, but IMHO an opt-in here is probably fine.)
+Using the bugzilla REST API, https://wiki.mozilla.org/Bugzilla:REST_API,
+the information from github's JSON POST request is translated into a
+new bug with the reviewer and others CCed.  The diff is applied
+to an updated mozilla-central try and, on success, a patch is posted to
+the bug for review. Additionally, the bugzilla autoland system
+(https://wiki.mozilla.org/Build:Autoland) is used to automatically
+test the patch on the try server,
+https://wiki.mozilla.org/ReleaseEngineering/TryServer .
+The patch may then be landed assuming all is well.
+
+
+== Semi-automatic vs. Automatic ==
+
+Sykamatic does most of the hard work such that the final decision to
+push to github or mozilla-central is as little work as possible.  There
+is, however, a human at each end that has to do the approving and
+final push (pressing "Merge pull request" on github or applying the patch
+and pushing to m-c).  This gives a safety net in case things go wrong.
+Alternative, we can reconsider this and make one or both ways fully
+automatic if people are generally happy with the approach.
+
+
+== Differences in Paths ==
+
+Since the commits on both sides are translated into diffs and applied
+as patches, this gives us large flexibility to version each side
+differently.  For instance,
+https://github.com/mozilla/mozbase/tree/master/mozdevice/mozdevice
+contains an __init__.py file whereas
+http://mxr.mozilla.org/mozilla-central/source/build/mobile/
+by design.
+
 
 == Reference ==
 
 Github pull requests: http://developer.github.com/v3/pulls/
 
-Python github client library: https://github.com/ask/python-github2 (for version 2, github is up to version 3)
+Python github client library: https://github.com/ask/python-github2
+(for version 2, github is up to version 3 of its API)
 
 There's a github API v3 lib at http://vincent-jacques.net/PyGithub.
 
+Autoland:
+* https://wiki.mozilla.org/Build:Autoland
+* https://wiki.mozilla.org/BugzillaAutoLanding
+
+Autoland will be able to land on branches directly instead of try:
+https://bugzilla.mozilla.org/show_bug.cgi?id=657828
+
 ----
 
+https://github.com/jonallengriffin/synkamatic
