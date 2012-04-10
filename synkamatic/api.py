@@ -1,6 +1,7 @@
 """
 generic API class for synkamatic
 """
+import json
 from mozillapulse.consumers import CodeConsumer
 import re
 import socket
@@ -21,7 +22,8 @@ class Synkamatic(object):
     reviewer = None # reviewer for github -> bugzilla patches
     cc = [] # bugzilla users to CC for github -> bugzilla patches
 
-    def __init__(self, github=None, paths=None, tree='mozilla-central'):
+    def __init__(self, github=None, paths=None, tree='mozilla-central',
+                 pulsefile=None):
         self.github = github or self.github
         assert self.github, "github repository not specified!"
         filepaths = paths or self.paths
@@ -30,6 +32,7 @@ class Synkamatic(object):
         for path in filepaths:
             self.pathRegexs.append(re.compile(path))
         self.tree = tree
+        self.pulsefile = pulsefile
 
     def start_pulse_listener(self):
         """Start listening to pulse messages.  This method will never return.
@@ -41,6 +44,10 @@ class Synkamatic(object):
         pulse.configure(topic="hg.commit.#.%s" % treewords,
                         callback=self.on_pulse_message,
                         durable=False)
+
+        if self.pulsefile:
+            self.on_pulse_message(json.loads(open(self.pulsefile, 'r').read()), None)
+
         try:
             pulse.listen()
         except KeyboardInterrupt:
@@ -53,7 +60,6 @@ class Synkamatic(object):
         """
 
         print 'commit matched'
-        import json
         print json.dumps(data, indent=2)
 
     def on_pulse_message(self, data, message):
@@ -63,7 +69,8 @@ class Synkamatic(object):
 
         # Important!  Acknowledge the message so it doesn't hang around
         # forever on the pulse server.
-        message.ack()
+        if message:
+            message.ack()
 
         # See if the affected files in the commit match any of our paths.
         for affectedFile in data.get('payload', {}).get('affected_files', []):
