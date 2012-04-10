@@ -12,10 +12,12 @@ import sys
 import optparse
 
 from mozbase import Mozbase
+from synkme import Synkme
 
 # dictionary of Synkamatic classes
 synks = {
     'mozbase': Mozbase,
+    'synkme': Synkme,
 }
 
 def main(args=sys.argv[:]):
