@@ -3,7 +3,6 @@ generic API class for synkamatic
 """
 import json
 from mozillapulse.consumers import CodeConsumer
-import re
 import socket
 import sys
 
@@ -16,7 +15,7 @@ class Synkamatic(object):
     human-moderatable media
     """
 
-    paths = [] # a list of regex's to match against paths in hg
+    paths = [] # a list of path prefixes to match against paths in hg
     github = None # github repository
     bugzilla = 'https://api-dev.bugzilla.mozilla.org/latest/' # REST API for bugzilla
     reviewer = None # reviewer for github -> bugzilla patches
@@ -26,11 +25,8 @@ class Synkamatic(object):
                  pulsefile=None):
         self.github = github or self.github
         assert self.github, "github repository not specified!"
-        filepaths = paths or self.paths
-        assert filepaths, "paths not specified!"
-        self.pathRegexs = []
-        for path in filepaths:
-            self.pathRegexs.append(re.compile(path))
+        self.path = paths or self.paths
+        assert self.paths, "paths not specified!"
         self.tree = tree
         self.pulsefile = pulsefile
 
@@ -74,8 +70,8 @@ class Synkamatic(object):
 
         # See if the affected files in the commit match any of our paths.
         for affectedFile in data.get('payload', {}).get('affected_files', []):
-            for path in self.pathRegexs:
-                if path.match(affectedFile):
+            for path in self.paths:
+                if affectedFile.startswith(path):
                     self.on_matching_commit(data)
 
 
