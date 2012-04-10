@@ -11,7 +11,7 @@ class Synkme(Synkamatic):
     Synkamatic class for Synkme
     """
 
-    paths = ['README'] # paths in hg
+    paths = ['README'] # paths in http://hg.mozilla.org/users/jgriffin_mozilla.com/synkme
     github = 'https://github.com/jonallengriffin/synkme'
 
 
