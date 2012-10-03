@@ -1,0 +1,9 @@
+digraph pushing_to_m-c {
+node [shape=box];
+rankdir = LR;
+developer -> hg [label="developer pushes to https://hg.mozilla.org/mozilla-central/file/tip/testing/mozbase"];
+hg -> pulse [label="changes are listened to in pulse"];
+pulse -> synkamatic [label="synkamatic pulse listener service"];
+synkamatic -> bugzilla [label="synkamatic pushes a patch for github mozbase to bugzilla and flags for review"];
+bugzilla -> github [label="human reviews the code and pushes to github" style="dashed"];
+}
